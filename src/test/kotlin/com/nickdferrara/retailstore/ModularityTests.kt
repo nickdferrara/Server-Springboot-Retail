@@ -14,6 +14,6 @@ class ModularityTests {
 
     @Test
     fun `create documentation`() {
-        Documenter(modules).writeDocumentation()
+        Documenter(modules).writeModuleCanvases()
     }
 }
