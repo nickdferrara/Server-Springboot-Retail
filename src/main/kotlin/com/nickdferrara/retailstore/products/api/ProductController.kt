@@ -1,5 +1,7 @@
-package com.nickdferrara.retailstore.products
+package com.nickdferrara.retailstore.products.api
 
+import com.nickdferrara.retailstore.products.service.ProductService
+import com.nickdferrara.retailstore.products.domain.Product
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 

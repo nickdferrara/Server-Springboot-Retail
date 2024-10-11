@@ -1,4 +1,4 @@
-package com.nickdferrara.retailstore.products
+package com.nickdferrara.retailstore.products.domain
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue

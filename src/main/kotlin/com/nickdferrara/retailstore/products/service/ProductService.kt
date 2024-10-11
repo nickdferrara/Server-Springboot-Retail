@@ -1,5 +1,7 @@
-package com.nickdferrara.retailstore.products
+package com.nickdferrara.retailstore.products.service
 
+import com.nickdferrara.retailstore.products.domain.Product
+import com.nickdferrara.retailstore.products.repository.ProductRepository
 import org.springframework.stereotype.Service
 
 @Service
