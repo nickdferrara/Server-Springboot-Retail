@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*
 class ProductController(private val productService: ProductService) {
 
     @GetMapping
-    fun getAllProducts(): List<Product> = productService.getAllProducts()
+    fun getAllProducts(): List<Product> = productService.findAllProducts()
 
     @GetMapping("/{id}")
-    fun getProductById(@PathVariable id: Long): Product? = productService.getProductById(id)
+    fun getProductById(@PathVariable id: Long): Product? = productService.findProductById(id)
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
