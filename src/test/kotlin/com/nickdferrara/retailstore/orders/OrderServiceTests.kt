@@ -1,8 +1,10 @@
 package com.nickdferrara.retailstore.orders
 
 import com.nickdferrara.retailstore.orders.domain.Order
+import com.nickdferrara.retailstore.orders.domain.OrderItem
 import com.nickdferrara.retailstore.orders.repository.OrderRepository
 import com.nickdferrara.retailstore.orders.service.OrderService
+import com.nickdferrara.retailstore.orders.service.OrderItemService
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
@@ -15,13 +17,14 @@ import java.util.*
 class OrderServiceTests {
 
     private val orderRepository: OrderRepository = mock(OrderRepository::class.java)
-    private val orderService: OrderService = OrderService(orderRepository)
+    private val orderItemService: OrderItemService = mock(OrderItemService::class.java)
+    private val orderService: OrderService = OrderService(orderRepository, orderItemService)
 
     @Test
     fun `test findAllOrders`() {
         val orders = listOf(
-            Order(1, "ORD001", LocalDate.now(), "NEW", BigDecimal(100)),
-            Order(2, "ORD002", LocalDate.now(), "SHIPPED", BigDecimal(200))
+            Order(1, "ORD001", LocalDate.now(), "NEW", BigDecimal(100), emptyList()),
+            Order(2, "ORD002", LocalDate.now(), "SHIPPED", BigDecimal(200), emptyList())
         )
         `when`(orderRepository.findAll()).thenReturn(orders)
 
@@ -33,7 +36,7 @@ class OrderServiceTests {
 
     @Test
     fun `test findOrderById`() {
-        val order = Order(1, "ORD001", LocalDate.now(), "NEW", BigDecimal(100))
+        val order = Order(1, "ORD001", LocalDate.now(), "NEW", BigDecimal(100), emptyList())
         `when`(orderRepository.findById(1)).thenReturn(Optional.of(order))
 
         val result = orderService.findOrderById(1)
@@ -43,23 +46,33 @@ class OrderServiceTests {
 
     @Test
     fun `test createOrder`() {
-        val order = Order(1, "ORD001", LocalDate.now(), "NEW", BigDecimal(100))
+        val orderItems = listOf(
+            OrderItem(1, "Item1", "Brand1", 1, BigDecimal(10)),
+            OrderItem(2, "Item2", "Brand2", 2, BigDecimal(20))
+        )
+        val order = Order(1, "ORD001", LocalDate.now(), "NEW", BigDecimal(100), orderItems)
         `when`(orderRepository.save(order)).thenReturn(order)
 
         val result = orderService.createOrder(order)
         assertNotNull(result)
         assertEquals("ORD001", result.orderNumber)
+        verify(orderItemService, times(2)).createOrderItem(any(OrderItem::class.java))
     }
 
     @Test
     fun `test updateOrder`() {
-        val order = Order(1, "ORD001", LocalDate.now(), "NEW", BigDecimal(100))
+        val orderItems = listOf(
+            OrderItem(1, "Item1", "Brand1", 1, BigDecimal(10)),
+            OrderItem(2, "Item2", "Brand2", 2, BigDecimal(20))
+        )
+        val order = Order(1, "ORD001", LocalDate.now(), "NEW", BigDecimal(100), orderItems)
         `when`(orderRepository.existsById(1)).thenReturn(true)
         `when`(orderRepository.save(order)).thenReturn(order)
 
         val result = orderService.updateOrder(1, order)
         assertNotNull(result)
         assertEquals("ORD001", result.orderNumber)
+        verify(orderItemService, times(2)).updateOrderItem(anyLong(), any(OrderItem::class.java))
     }
 
     @Test
