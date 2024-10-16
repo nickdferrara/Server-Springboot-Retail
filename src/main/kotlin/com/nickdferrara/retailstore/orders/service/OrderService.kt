@@ -12,10 +12,14 @@ class OrderService(private val orderRepository: OrderRepository) {
 
     fun findOrderById(id: Long): Order? = orderRepository.findById(id).orElse(null)
 
-    fun createOrder(order: Order): Order = orderRepository.save(order)
+    fun createOrder(order: Order): Order {
+        order.orderItems.forEach { it.order = order }
+        return orderRepository.save(order)
+    }
 
     fun updateOrder(id: Long, order: Order): Order {
         return if (orderRepository.existsById(id)) {
+            order.orderItems.forEach { it.order = order }
             orderRepository.save(order.copy(id = id))
         } else {
             throw NoSuchElementException("Order with id $id not found")

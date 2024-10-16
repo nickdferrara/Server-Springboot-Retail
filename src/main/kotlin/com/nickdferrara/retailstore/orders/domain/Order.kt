@@ -12,5 +12,9 @@ data class Order(
     val orderNumber: String,
     val orderDate: LocalDate,
     val status: String,
-    val totalAmount: BigDecimal
+    val totalAmount: BigDecimal,
+
+    @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
+    @JoinColumn(name = "order_id")
+    val orderItems: List<OrderItem>
 )
