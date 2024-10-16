@@ -1,14 +1,17 @@
 package com.nickdferrara.retailstore.orders.web
 
+import com.nickdferrara.retailstore.orders.domain.Order
 import com.nickdferrara.retailstore.orders.dto.OrderRequest
 import com.nickdferrara.retailstore.orders.service.OrderService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/orders")
+@Validated
 class OrderController(private val orderService: OrderService) {
 
     @GetMapping
