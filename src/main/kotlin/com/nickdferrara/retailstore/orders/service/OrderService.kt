@@ -1,6 +1,8 @@
 package com.nickdferrara.retailstore.orders.service
 
 import com.nickdferrara.retailstore.orders.domain.Order
+import com.nickdferrara.retailstore.orders.domain.OrderItem
+import com.nickdferrara.retailstore.orders.dto.OrderRequest
 import com.nickdferrara.retailstore.orders.repository.OrderRepository
 import org.springframework.stereotype.Service
 import java.util.*
@@ -35,5 +37,23 @@ class OrderService(
         } else {
             throw NoSuchElementException("Order with id $id not found")
         }
+    }
+
+    fun convertToOrder(orderRequest: OrderRequest): Order {
+        val orderItems = orderRequest.orderItems.map { 
+            OrderItem(
+                name = it.name,
+                brand = it.brand,
+                quantity = it.quantity,
+                price = it.price
+            )
+        }
+        return Order(
+            orderNumber = orderRequest.orderNumber,
+            orderDate = orderRequest.orderDate,
+            status = orderRequest.status,
+            totalAmount = orderRequest.totalAmount,
+            orderItems = orderItems
+        )
     }
 }
