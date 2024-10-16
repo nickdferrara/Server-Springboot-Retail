@@ -2,6 +2,7 @@ package com.nickdferrara.retailstore.orders.service
 
 import com.nickdferrara.retailstore.orders.domain.Order
 import com.nickdferrara.retailstore.orders.domain.OrderItem
+import com.nickdferrara.retailstore.orders.domain.OrderStatus
 import com.nickdferrara.retailstore.orders.dto.OrderRequest
 import com.nickdferrara.retailstore.orders.repository.OrderRepository
 import org.springframework.stereotype.Service
@@ -19,6 +20,7 @@ class OrderService(
 
     fun createOrder(order: Order): Order {
         order.orderItems.forEach { orderItemService.createOrderItem(it) } // Use OrderItemService to save order items
+        order.status = OrderStatus.PENDING // Set status to PENDING when creating a new order
         return orderRepository.save(order)
     }
 

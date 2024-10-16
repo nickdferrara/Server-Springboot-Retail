@@ -1,5 +1,6 @@
 package com.nickdferrara.retailstore.orders.dto
 
+import com.nickdferrara.retailstore.orders.domain.OrderStatus
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Positive
@@ -13,8 +14,8 @@ data class OrderRequest(
     @field:NotNull
     val orderDate: LocalDate,
 
-    @field:NotBlank
-    val status: String,
+    @field:NotNull
+    val status: OrderStatus,
 
     @field:NotNull
     @field:Positive
