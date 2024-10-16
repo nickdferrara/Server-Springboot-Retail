@@ -1,4 +1,4 @@
-package com.nickdferrara.retailstore.pricing.api
+package com.nickdferrara.retailstore.pricing.web
 
 import com.nickdferrara.retailstore.pricing.domain.Pricing
 import com.nickdferrara.retailstore.pricing.service.PricingService
@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/pricings")
-class PricingController(private val pricingService: PricingService) {
+class PricingController(
+    private val pricingService: PricingService
+) {
 
     @GetMapping
     fun getAllPricings(): List<Pricing> = pricingService.findAllPricing()
@@ -45,4 +47,14 @@ class PricingController(private val pricingService: PricingService) {
             ResponseEntity.notFound().build()
         }
     }
+
+//    @GetMapping("/inventory-value")
+//    fun getInventoryValue(
+//        @RequestParam sku: String,
+//        @RequestParam storeNumber: String,
+//        @RequestParam effectiveDate: LocalDate
+//    ): ResponseEntity<BigDecimal> {
+//        val inventoryValue = pricingService.findInventoryValue(sku, storeNumber, effectiveDate)
+//        return ResponseEntity.ok(inventoryValue)
+//    }
 }

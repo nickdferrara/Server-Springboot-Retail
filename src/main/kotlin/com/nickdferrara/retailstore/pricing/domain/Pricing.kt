@@ -8,6 +8,8 @@ import java.math.BigDecimal
 data class Pricing(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
+    val sku: String,
+    val state: String,
     val retailPrice: BigDecimal,
     val inventoryPrice: BigDecimal,
     val storePrice: BigDecimal

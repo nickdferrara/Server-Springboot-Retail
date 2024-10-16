@@ -1,4 +1,4 @@
-package com.nickdferrara.retailstore.products.api
+package com.nickdferrara.retailstore.products.web
 
 import com.nickdferrara.retailstore.products.service.ProductService
 import com.nickdferrara.retailstore.products.domain.Product
