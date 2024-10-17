@@ -1,53 +1,5 @@
-CREATE TABLE items (
-    id BIGINT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    brand VARCHAR(255) NOT NULL
-);
 
-CREATE TABLE orders (
-    id BIGINT PRIMARY KEY,
-    order_number VARCHAR(255) NOT NULL,
-    order_date DATE NOT NULL,
-    status VARCHAR(255) NOT NULL,
-    total_amount DECIMAL(10, 2) NOT NULL
-);
-
-CREATE TABLE order_items (
-    id BIGINT PRIMARY KEY,
-    order_id BIGINT,
-    name VARCHAR(255) NOT NULL,
-    brand VARCHAR(255) NOT NULL,
-    quantity INT NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES orders(id)
-);
-
-CREATE TABLE addresses (
-    id BIGINT PRIMARY KEY,
-    street VARCHAR(255) NOT NULL,
-    city VARCHAR(255) NOT NULL,
-    state VARCHAR(255) NOT NULL,
-    zip VARCHAR(10) NOT NULL
-);
-
-CREATE TABLE hours_of_operation (
-    id BIGINT PRIMARY KEY,
-    store_id BIGINT,
-    day_of_week VARCHAR(255) NOT NULL,
-    opening_time TIME NOT NULL,
-    closing_time TIME NOT NULL,
-    FOREIGN KEY (store_id) REFERENCES stores(id)
-);
-
-CREATE TABLE stores (
-    id BIGINT PRIMARY KEY,
-    store_number VARCHAR(255) NOT NULL,
-    address_id BIGINT,
-    FOREIGN KEY (address_id) REFERENCES addresses(id)
-);
-
-INSERT INTO items (id, name, description, brand) VALUES
+INSERT INTO product (id, name, description, brand) VALUES
 (1, 'Item 1', 'Description for item 1', 'Brand A'),
 (2, 'Item 2', 'Description for item 2', 'Brand B'),
 (3, 'Item 3', 'Description for item 3', 'Brand C'),
@@ -61,19 +13,19 @@ INSERT INTO orders (id, order_number, order_date, status, total_amount) VALUES
 (4, 'ORD004', '2023-01-04', 'SHIPPED', 400.00),
 (5, 'ORD005', '2023-01-05', 'COMPLETED', 500.00);
 
-INSERT INTO stores (id, store_number, address_id) VALUES
-(1, 'STORE001', 1),
-(2, 'STORE002', 2),
-(3, 'STORE003', 3),
-(4, 'STORE004', 4),
-(5, 'STORE005', 5);
-
 INSERT INTO addresses (id, street, city, state, zip) VALUES
 (1, '123 Main St', 'City A', 'State A', '12345'),
 (2, '456 Elm St', 'City B', 'State B', '23456'),
 (3, '789 Oak St', 'City C', 'State C', '34567'),
 (4, '101 Pine St', 'City D', 'State D', '45678'),
 (5, '202 Maple St', 'City E', 'State E', '56789');
+
+INSERT INTO stores (id, store_number, address_id) VALUES
+(1, 'STORE001', 1),
+(2, 'STORE002', 2),
+(3, 'STORE003', 3),
+(4, 'STORE004', 4),
+(5, 'STORE005', 5);
 
 INSERT INTO hours_of_operation (id, store_id, day_of_week, opening_time, closing_time) VALUES
 (1, 1, 'MONDAY', '09:00:00', '17:00:00'),
