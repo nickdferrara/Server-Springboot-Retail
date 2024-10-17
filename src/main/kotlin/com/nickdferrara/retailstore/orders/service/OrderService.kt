@@ -12,8 +12,7 @@ import java.util.*
 @Service
 class OrderService(
     private val orderRepository: OrderRepository,
-    private val orderItemService: OrderItemService, // Inject OrderItemService
-    private val orderMapper: OrderMapper // Inject OrderMapper
+    private val orderItemService: OrderItemService
 ) {
 
     fun findAllOrders(): List<Order> = orderRepository.findAll()
@@ -41,23 +40,5 @@ class OrderService(
         } else {
             throw NoSuchElementException("Order with id $id not found")
         }
-    }
-
-    fun convertToOrder(orderRequest: OrderRequest): Order {
-        val orderItems = orderRequest.orderItems.map { 
-            OrderItem(
-                name = it.name,
-                brand = it.brand,
-                quantity = it.quantity,
-                price = it.price
-            )
-        }
-        return Order(
-            orderNumber = orderRequest.orderNumber,
-            orderDate = orderRequest.orderDate,
-            status = orderRequest.status,
-            totalAmount = orderRequest.totalAmount,
-            orderItems = orderItems
-        )
     }
 }

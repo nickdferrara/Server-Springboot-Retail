@@ -20,8 +20,7 @@ class OrderServiceTests {
 
     private val orderRepository: OrderRepository = mock(OrderRepository::class.java)
     private val orderItemService: OrderItemService = mock(OrderItemService::class.java)
-    private val orderMapper: OrderMapper = mock(OrderMapper::class.java)
-    private val orderService: OrderService = OrderService(orderRepository, orderItemService, orderMapper)
+    private val orderService: OrderService = OrderService(orderRepository, orderItemService)
 
     @Test
     fun `test findAllOrders`() {

@@ -2,8 +2,8 @@ package com.nickdferrara.retailstore.orders.web
 
 import com.nickdferrara.retailstore.orders.domain.Order
 import com.nickdferrara.retailstore.orders.dto.OrderRequest
-import com.nickdferrara.retailstore.orders.service.OrderService
 import com.nickdferrara.retailstore.orders.mapper.OrderMapper
+import com.nickdferrara.retailstore.orders.service.OrderService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*
 @Validated
 class OrderController(
     private val orderService: OrderService,
-    private val orderMapper: OrderMapper // Inject OrderMapper
+    private val orderMapper: OrderMapper
 ) {
 
     @GetMapping
@@ -33,13 +33,16 @@ class OrderController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createOrder(@Valid @RequestBody orderRequest: OrderRequest): Order {
-        val order = orderMapper.toOrder(orderRequest)
+    fun createOrder(@Valid @RequestBody request: OrderRequest): Order {
+        val order = orderMapper.toOrder(request)
         return orderService.createOrder(order)
     }
 
     @PutMapping("/{id}")
-    fun updateOrder(@PathVariable id: Long, @Valid @RequestBody orderRequest: OrderRequest): ResponseEntity<Order> {
+    fun updateOrder(
+        @PathVariable id: Long,
+        @Valid @RequestBody orderRequest: OrderRequest
+    ): ResponseEntity<Order> {
         return try {
             val order = orderMapper.toOrder(orderRequest)
             ResponseEntity.ok(orderService.updateOrder(id, order))
