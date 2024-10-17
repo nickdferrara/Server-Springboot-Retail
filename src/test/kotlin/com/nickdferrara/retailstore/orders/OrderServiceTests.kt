@@ -25,7 +25,7 @@ class OrderServiceTests {
     fun `test findAllOrders`() {
         val orders = listOf(
             Order(1, "ORD001", LocalDate.now(), OrderStatus.PENDING, BigDecimal(100), emptyList()),
-            Order(2, "ORD002", LocalDate.now(), OrderStatus.SHOPPED, BigDecimal(200), emptyList())
+            Order(2, "ORD002", LocalDate.now(), OrderStatus.SHIPPED, BigDecimal(200), emptyList())
         )
         `when`(orderRepository.findAll()).thenReturn(orders)
 

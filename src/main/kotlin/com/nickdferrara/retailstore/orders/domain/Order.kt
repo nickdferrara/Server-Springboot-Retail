@@ -24,7 +24,7 @@ enum class OrderStatus {
     PENDING,
     CONFIRMED,
     FULFILLED,
-    SHOPPED,
+    SHIPPED,
     RETURNED,
     COMPLETED
 }

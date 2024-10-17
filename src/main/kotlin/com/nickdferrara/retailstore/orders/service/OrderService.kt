@@ -19,14 +19,14 @@ class OrderService(
     fun findOrderById(id: Long): Order? = orderRepository.findById(id).orElse(null)
 
     fun createOrder(order: Order): Order {
-        order.orderItems.forEach { orderItemService.createOrderItem(it) } // Use OrderItemService to save order items
-        order.status = OrderStatus.PENDING // Set status to PENDING when creating a new order
-        return orderRepository.save(order)
+        order.orderItems.forEach { orderItemService.createOrderItem(it) }
+        val updatedOrder = order.copy(status = OrderStatus.PENDING)
+        return orderRepository.save(updatedOrder)
     }
 
     fun updateOrder(id: Long, order: Order): Order {
         return if (orderRepository.existsById(id)) {
-            order.orderItems.forEach { orderItemService.updateOrderItem(it.id, it) } // Use OrderItemService to save order items
+            order.orderItems.forEach { orderItemService.updateOrderItem(it.id, it) }
             orderRepository.save(order.copy(id = id))
         } else {
             throw NoSuchElementException("Order with id $id not found")
