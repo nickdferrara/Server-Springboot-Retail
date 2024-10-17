@@ -30,7 +30,11 @@ class PickListController(private val pickListService: PickListService) {
     @PutMapping("/{id}")
     fun updatePickList(@PathVariable id: Long, @RequestBody pickList: PickList): ResponseEntity<PickList> {
         return try {
-            ResponseEntity.ok(pickListService.updatePickList(id, pickList))
+            val updatedPickList = pickListService.updatePickList(id, pickList)
+            if (updatedPickList.status == PickListStatus.COMPLETED) {
+                eventPublisher.publishEvent(PickListCompleteEvent(updatedPickList.id, updatedPickList))
+            }
+            ResponseEntity.ok(updatedPickList)
         } catch (e: NoSuchElementException) {
             ResponseEntity.notFound().build()
         }
