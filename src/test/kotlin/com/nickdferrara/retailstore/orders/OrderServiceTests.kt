@@ -6,6 +6,7 @@ import com.nickdferrara.retailstore.orders.domain.OrderStatus
 import com.nickdferrara.retailstore.orders.repository.OrderRepository
 import com.nickdferrara.retailstore.orders.service.OrderService
 import com.nickdferrara.retailstore.orders.service.OrderItemService
+import com.nickdferrara.retailstore.orders.mapper.OrderMapper
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
@@ -19,7 +20,8 @@ class OrderServiceTests {
 
     private val orderRepository: OrderRepository = mock(OrderRepository::class.java)
     private val orderItemService: OrderItemService = mock(OrderItemService::class.java)
-    private val orderService: OrderService = OrderService(orderRepository, orderItemService)
+    private val orderMapper: OrderMapper = mock(OrderMapper::class.java)
+    private val orderService: OrderService = OrderService(orderRepository, orderItemService, orderMapper)
 
     @Test
     fun `test findAllOrders`() {
