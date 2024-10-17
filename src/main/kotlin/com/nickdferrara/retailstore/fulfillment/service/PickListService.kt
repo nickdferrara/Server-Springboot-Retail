@@ -5,6 +5,8 @@ import com.nickdferrara.retailstore.fulfillment.domain.PickListItem
 import com.nickdferrara.retailstore.fulfillment.domain.PickListStatus
 import com.nickdferrara.retailstore.fulfillment.repository.PickListRepository
 import com.nickdferrara.retailstore.fulfillment.repository.PickListItemRepository
+import com.nickdferrara.retailstore.fulfillment.mapper.PickListMapper
+import com.nickdferrara.retailstore.fulfillment.mapper.PickListItemMapper
 import com.nickdferrara.retailstore.orders.domain.Order
 import org.springframework.stereotype.Service
 import java.util.*
@@ -12,7 +14,9 @@ import java.util.*
 @Service
 class PickListService(
     private val pickListRepository: PickListRepository,
-    private val pickListItemRepository: PickListItemRepository
+    private val pickListItemRepository: PickListItemRepository,
+    private val pickListMapper: PickListMapper,
+    private val pickListItemMapper: PickListItemMapper
 ) {
 
     fun findAllPickLists(): List<PickList> = pickListRepository.findAll()
@@ -39,17 +43,10 @@ class PickListService(
 
     fun createPickListFromOrder(order: Order): PickList {
         val pickListItems = order.orderItems.map { orderItem ->
-            PickListItem(
-                pickListId = 0,
-                name = orderItem.name,
-                brand = orderItem.brand,
-                quantity = orderItem.quantity,
-                price = orderItem.price
-            )
+            pickListItemMapper.toPickListItem(orderItem)
         }
 
-        val pickList = PickList(
-            orderId = order.id,
+        val pickList = pickListMapper.toPickList(order).copy(
             status = PickListStatus.PENDING,
             pickListItems = pickListItems
         )
