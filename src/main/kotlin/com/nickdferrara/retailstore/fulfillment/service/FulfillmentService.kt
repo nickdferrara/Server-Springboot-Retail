@@ -1,9 +1,11 @@
 package com.nickdferrara.retailstore.fulfillment.service
 
 import com.nickdferrara.retailstore.fulfillment.domain.Fulfillment
+import com.nickdferrara.retailstore.fulfillment.domain.FulfillmentStatus
 import com.nickdferrara.retailstore.fulfillment.repository.FulfillmentRepository
 import com.nickdferrara.retailstore.orders.domain.Order
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.util.*
 
 @Service
@@ -35,7 +37,7 @@ class FulfillmentService(private val fulfillmentRepository: FulfillmentRepositor
         val fulfillment = Fulfillment(
             orderId = order.id,
             fulfillmentDate = LocalDate.now(),
-            status = "CREATED"
+            status = FulfillmentStatus.PENDING
         )
         return fulfillmentRepository.save(fulfillment)
     }
