@@ -1,14 +1,20 @@
 package com.nickdferrara.retailstore.fulfillment.web
 
 import com.nickdferrara.retailstore.fulfillment.domain.PickList
+import com.nickdferrara.retailstore.fulfillment.domain.PickListStatus
+import com.nickdferrara.retailstore.fulfillment.events.PickListCompleteEvent
 import com.nickdferrara.retailstore.fulfillment.service.PickListService
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/picklists")
-class PickListController(private val pickListService: PickListService) {
+class PickListController(
+    private val pickListService: PickListService,
+    private val eventPublisher: ApplicationEventPublisher
+) {
 
     @GetMapping
     fun getAllPickLists(): List<PickList> = pickListService.findAllPickLists()

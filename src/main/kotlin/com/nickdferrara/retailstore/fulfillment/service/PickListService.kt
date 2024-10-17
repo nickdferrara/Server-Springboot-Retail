@@ -28,7 +28,7 @@ class PickListService(
     fun createPickList(pickList: PickList): PickList = pickListRepository.save(pickList)
 
     fun updatePickList(id: Long, pickList: PickList): PickList {
-        return if (pickListRepository.existsById(id)) {
+        if (pickListRepository.existsById(id)) {
             val updatedPickList = pickListRepository.save(pickList.copy(id = id))
             if (updatedPickList.status == PickListStatus.COMPLETED) {
                 eventPublisher.publishEvent(PickListCompleteEvent(updatedPickList.id, updatedPickList))
