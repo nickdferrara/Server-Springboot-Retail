@@ -11,8 +11,6 @@ data class ShippingRoute(
     val id: Long = 0,
     val orderId: Long,
     val shippingDate: LocalDate,
-    val carrier: String,
-    val trackingNumber: String,
 
     @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "shipping_route_id")
