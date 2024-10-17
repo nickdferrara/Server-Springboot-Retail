@@ -10,5 +10,12 @@ data class Fulfillment(
     val id: Long = 0,
     val orderId: Long,
     val fulfillmentDate: LocalDate,
-    val status: String
+    @Enumerated(EnumType.STRING)
+    val status: FulfillmentStatus
 )
+
+enum class FulfillmentStatus {
+    PENDING,
+    IN_PROGRESS,
+    COMPLETED
+}

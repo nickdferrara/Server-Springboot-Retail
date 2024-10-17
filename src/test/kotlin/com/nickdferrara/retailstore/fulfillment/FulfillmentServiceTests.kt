@@ -1,6 +1,7 @@
 package com.nickdferrara.retailstore.fulfillment
 
 import com.nickdferrara.retailstore.fulfillment.domain.Fulfillment
+import com.nickdferrara.retailstore.fulfillment.domain.FulfillmentStatus
 import com.nickdferrara.retailstore.fulfillment.repository.FulfillmentRepository
 import com.nickdferrara.retailstore.fulfillment.service.FulfillmentService
 import org.junit.jupiter.api.Assertions.*
@@ -19,8 +20,8 @@ class FulfillmentServiceTests {
     @Test
     fun `test findAllFulfillments`() {
         val fulfillments = listOf(
-            Fulfillment(1, 101, LocalDate.now(), "PENDING"),
-            Fulfillment(2, 102, LocalDate.now(), "COMPLETED")
+            Fulfillment(1, 101, LocalDate.now(), FulfillmentStatus.PENDING),
+            Fulfillment(2, 102, LocalDate.now(), FulfillmentStatus.COMPLETED)
         )
         `when`(fulfillmentRepository.findAll()).thenReturn(fulfillments)
 
@@ -32,7 +33,7 @@ class FulfillmentServiceTests {
 
     @Test
     fun `test findFulfillmentById`() {
-        val fulfillment = Fulfillment(1, 101, LocalDate.now(), "PENDING")
+        val fulfillment = Fulfillment(1, 101, LocalDate.now(), FulfillmentStatus.PENDING)
         `when`(fulfillmentRepository.findById(1)).thenReturn(Optional.of(fulfillment))
 
         val result = fulfillmentService.findFulfillmentById(1)
@@ -42,7 +43,7 @@ class FulfillmentServiceTests {
 
     @Test
     fun `test createFulfillment`() {
-        val fulfillment = Fulfillment(1, 101, LocalDate.now(), "PENDING")
+        val fulfillment = Fulfillment(1, 101, LocalDate.now(), FulfillmentStatus.PENDING)
         `when`(fulfillmentRepository.save(fulfillment)).thenReturn(fulfillment)
 
         val result = fulfillmentService.createFulfillment(fulfillment)
@@ -52,7 +53,7 @@ class FulfillmentServiceTests {
 
     @Test
     fun `test updateFulfillment`() {
-        val fulfillment = Fulfillment(1, 101, LocalDate.now(), "PENDING")
+        val fulfillment = Fulfillment(1, 101, LocalDate.now(), FulfillmentStatus.PENDING)
         `when`(fulfillmentRepository.existsById(1)).thenReturn(true)
         `when`(fulfillmentRepository.save(fulfillment)).thenReturn(fulfillment)
 
