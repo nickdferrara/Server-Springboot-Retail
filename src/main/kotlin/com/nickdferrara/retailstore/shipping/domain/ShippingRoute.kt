@@ -25,5 +25,6 @@ data class ShippingRoute(
 enum class ShippingStatus {
     STAGING,
     LOADING,
-    COMPLETE
+    COMPLETE,
+    DELIVERED
 }
