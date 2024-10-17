@@ -9,5 +9,6 @@ import org.mapstruct.Mapping
 interface PickListMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "status", ignore = true)
     fun toPickList(order: Order): PickList
 }

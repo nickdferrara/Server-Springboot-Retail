@@ -1,5 +1,6 @@
 package com.nickdferrara.retailstore.fulfillment.listener
 
+import com.nickdferrara.retailstore.fulfillment.domain.PickListStatus
 import com.nickdferrara.retailstore.fulfillment.mapper.*
 import com.nickdferrara.retailstore.fulfillment.service.PickListService
 import com.nickdferrara.retailstore.orders.events.OrderReleasedEvent
@@ -15,6 +16,7 @@ class OrderReleasedListener(
     @EventListener
     fun handleOrderReleasedEvent(event: OrderReleasedEvent) {
         val pickList = pickListMapper.toPickList(event.orderDetails)
+            .copy(status = PickListStatus.PENDING)
         pickListService.createPickList(pickList)
     }
 }

@@ -25,5 +25,5 @@ data class OrderRequest(
     val orderItems: List<OrderItemRequest>,
 
     @field:NotNull
-    val customerInformation: StoreRequest
+    val customerInformation: CustomerInformationRequest
 )
