@@ -4,6 +4,7 @@ import com.nickdferrara.retailstore.orders.domain.Order
 import com.nickdferrara.retailstore.orders.domain.OrderItem
 import com.nickdferrara.retailstore.orders.domain.OrderStatus
 import com.nickdferrara.retailstore.orders.dto.OrderRequest
+import com.nickdferrara.retailstore.orders.mapper.OrderMapper
 import com.nickdferrara.retailstore.orders.repository.OrderRepository
 import org.springframework.stereotype.Service
 import java.util.*
@@ -11,7 +12,8 @@ import java.util.*
 @Service
 class OrderService(
     private val orderRepository: OrderRepository,
-    private val orderItemService: OrderItemService // Inject OrderItemService
+    private val orderItemService: OrderItemService, // Inject OrderItemService
+    private val orderMapper: OrderMapper // Inject OrderMapper
 ) {
 
     fun findAllOrders(): List<Order> = orderRepository.findAll()
