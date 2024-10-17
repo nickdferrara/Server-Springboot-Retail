@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.*
 class ShippingRouteController(private val shippingRouteService: ShippingRouteService) {
 
     @GetMapping
-    fun getAllShippings(): List<ShippingRoute> = shippingRouteService.findAllShippings()
+    fun getAllShippings(): List<ShippingRoute> = shippingRouteService.findAllShippingRoutes()
 
     @GetMapping("/{id}")
     fun getShippingById(@PathVariable id: Long): ResponseEntity<ShippingRoute> {
-        val shippingRoute = shippingRouteService.findShippingById(id)
+        val shippingRoute = shippingRouteService.findShippingRouteById(id)
         return if (shippingRoute != null) {
             ResponseEntity.ok(shippingRoute)
         } else {
@@ -25,12 +25,14 @@ class ShippingRouteController(private val shippingRouteService: ShippingRouteSer
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createShipping(@RequestBody shippingRoute: ShippingRoute): ShippingRoute = shippingRouteService.createShipping(shippingRoute)
+    fun createShipping(
+        @RequestBody shippingRoute: ShippingRoute
+    ): ShippingRoute = shippingRouteService.createShippingRoute(shippingRoute)
 
     @PutMapping("/{id}")
     fun updateShipping(@PathVariable id: Long, @RequestBody shippingRoute: ShippingRoute): ResponseEntity<ShippingRoute> {
         return try {
-            ResponseEntity.ok(shippingRouteService.updateShipping(id, shippingRoute))
+            ResponseEntity.ok(shippingRouteService.updateShippingRoute(id, shippingRoute))
         } catch (e: NoSuchElementException) {
             ResponseEntity.notFound().build()
         }
@@ -39,7 +41,7 @@ class ShippingRouteController(private val shippingRouteService: ShippingRouteSer
     @DeleteMapping("/{id}")
     fun deleteShipping(@PathVariable id: Long): ResponseEntity<Unit> {
         return try {
-            shippingRouteService.deleteShipping(id)
+            shippingRouteService.deleteShippingRoute(id)
             ResponseEntity.noContent().build()
         } catch (e: NoSuchElementException) {
             ResponseEntity.notFound().build()
