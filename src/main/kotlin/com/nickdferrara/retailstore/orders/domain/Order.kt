@@ -23,6 +23,7 @@ data class Order(
 enum class OrderStatus {
     PENDING,
     CONFIRMED,
+    RELEASED,
     FULFILLED,
     SHIPPED,
     RETURNED,
