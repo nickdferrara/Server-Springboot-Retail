@@ -22,5 +22,8 @@ data class OrderRequest(
     val totalAmount: BigDecimal,
 
     @field:NotNull
-    val orderItems: List<OrderItemRequest>
+    val orderItems: List<OrderItemRequest>,
+
+    @field:NotNull
+    val customerInformation: StoreRequest
 )

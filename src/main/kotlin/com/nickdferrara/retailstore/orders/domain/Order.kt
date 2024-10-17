@@ -17,7 +17,11 @@ data class Order(
 
     @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "order_id")
-    val orderItems: List<OrderItem>
+    val orderItems: List<OrderItem>,
+
+    @OneToOne
+    @JoinColumn(name = "customer_information_id")
+    val customerInformation: CustomerInformation
 )
 
 enum class OrderStatus {
