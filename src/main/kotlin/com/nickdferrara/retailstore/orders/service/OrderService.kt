@@ -6,13 +6,16 @@ import com.nickdferrara.retailstore.orders.domain.OrderStatus
 import com.nickdferrara.retailstore.orders.dto.OrderRequest
 import com.nickdferrara.retailstore.orders.mapper.OrderMapper
 import com.nickdferrara.retailstore.orders.repository.OrderRepository
+import com.nickdferrara.retailstore.orders.events.OrderReleasedEvent
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
 class OrderService(
     private val orderRepository: OrderRepository,
-    private val orderItemService: OrderItemService
+    private val orderItemService: OrderItemService,
+    private val eventPublisher: ApplicationEventPublisher
 ) {
 
     fun findAllOrders(): List<Order> = orderRepository.findAll()
@@ -28,7 +31,11 @@ class OrderService(
     fun updateOrder(id: Long, order: Order): Order {
         return if (orderRepository.existsById(id)) {
             order.orderItems.forEach { orderItemService.updateOrderItem(it.id, it) }
-            orderRepository.save(order.copy(id = id))
+            val updatedOrder = orderRepository.save(order.copy(id = id))
+            if (updatedOrder.status == OrderStatus.RELEASED) {
+                eventPublisher.publishEvent(OrderReleasedEvent(updatedOrder.id, updatedOrder))
+            }
+            return updatedOrder
         } else {
             throw NoSuchElementException("Order with id $id not found")
         }

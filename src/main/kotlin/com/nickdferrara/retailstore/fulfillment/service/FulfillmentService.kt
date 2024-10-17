@@ -2,6 +2,7 @@ package com.nickdferrara.retailstore.fulfillment.service
 
 import com.nickdferrara.retailstore.fulfillment.domain.Fulfillment
 import com.nickdferrara.retailstore.fulfillment.repository.FulfillmentRepository
+import com.nickdferrara.retailstore.orders.domain.Order
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -28,5 +29,14 @@ class FulfillmentService(private val fulfillmentRepository: FulfillmentRepositor
         } else {
             throw NoSuchElementException("Fulfillment with id $id not found")
         }
+    }
+
+    fun createFulfillmentFromOrder(order: Order): Fulfillment {
+        val fulfillment = Fulfillment(
+            orderId = order.id,
+            fulfillmentDate = LocalDate.now(),
+            status = "CREATED"
+        )
+        return fulfillmentRepository.save(fulfillment)
     }
 }
