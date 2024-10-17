@@ -11,10 +11,14 @@ import com.nickdferrara.retailstore.orders.domain.Order
 import org.springframework.stereotype.Service
 import java.util.*
 
+import com.nickdferrara.retailstore.fulfillment.events.PickListCompleteEvent
+import org.springframework.context.ApplicationEventPublisher
+
 @Service
 class PickListService(
     private val pickListRepository: PickListRepository,
-    private val pickListItemRepository: PickListItemRepository
+    private val pickListItemRepository: PickListItemRepository,
+    private val eventPublisher: ApplicationEventPublisher
 ) {
 
     fun findAllPickLists(): List<PickList> = pickListRepository.findAll()
@@ -25,7 +29,11 @@ class PickListService(
 
     fun updatePickList(id: Long, pickList: PickList): PickList {
         return if (pickListRepository.existsById(id)) {
-            pickListRepository.save(pickList.copy(id = id))
+            val updatedPickList = pickListRepository.save(pickList.copy(id = id))
+            if (updatedPickList.status == PickListStatus.COMPLETED) {
+                eventPublisher.publishEvent(PickListCompleteEvent(updatedPickList.id, updatedPickList))
+            }
+            return updatedPickList
         } else {
             throw NoSuchElementException("PickList with id $id not found")
         }
