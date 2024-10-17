@@ -19,10 +19,10 @@ class OrderController(
 ) {
 
     @GetMapping
-    fun getAllOrders(): List<Order> = orderService.findAllOrders()
+    fun findAllOrders(): List<Order> = orderService.findAllOrders()
 
     @GetMapping("/{id}")
-    fun getOrderById(@PathVariable id: Long): ResponseEntity<Order> {
+    fun findOrderById(@PathVariable id: Long): ResponseEntity<Order> {
         val order = orderService.findOrderById(id)
         return if (order != null) {
             ResponseEntity.ok(order)
