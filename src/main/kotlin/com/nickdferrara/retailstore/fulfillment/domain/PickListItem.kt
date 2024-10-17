@@ -8,7 +8,6 @@ import java.math.BigDecimal
 data class PickListItem(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
-    val pickListId: Long,
     val name: String,
     val brand: String,
     val quantity: Int,

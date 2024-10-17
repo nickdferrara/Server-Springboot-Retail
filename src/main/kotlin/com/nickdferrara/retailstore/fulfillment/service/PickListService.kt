@@ -14,9 +14,7 @@ import java.util.*
 @Service
 class PickListService(
     private val pickListRepository: PickListRepository,
-    private val pickListItemRepository: PickListItemRepository,
-    private val pickListMapper: PickListMapper,
-    private val pickListItemMapper: PickListItemMapper
+    private val pickListItemRepository: PickListItemRepository
 ) {
 
     fun findAllPickLists(): List<PickList> = pickListRepository.findAll()
@@ -39,18 +37,5 @@ class PickListService(
         } else {
             throw NoSuchElementException("PickList with id $id not found")
         }
-    }
-
-    fun createPickListFromOrder(order: Order): PickList {
-        val pickListItems = order.orderItems.map { orderItem ->
-            pickListItemMapper.toPickListItem(orderItem)
-        }
-
-        val pickList = pickListMapper.toPickList(order).copy(
-            status = PickListStatus.PENDING,
-            pickListItems = pickListItems
-        )
-
-        return pickListRepository.save(pickList)
     }
 }

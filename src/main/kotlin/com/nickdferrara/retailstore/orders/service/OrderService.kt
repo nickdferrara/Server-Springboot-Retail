@@ -29,7 +29,7 @@ class OrderService(
     }
 
     fun updateOrder(id: Long, order: Order): Order {
-        return if (orderRepository.existsById(id)) {
+        if (orderRepository.existsById(id)) {
             order.orderItems.forEach { orderItemService.updateOrderItem(it.id, it) }
             val updatedOrder = orderRepository.save(order.copy(id = id))
             if (updatedOrder.status == OrderStatus.RELEASED) {
