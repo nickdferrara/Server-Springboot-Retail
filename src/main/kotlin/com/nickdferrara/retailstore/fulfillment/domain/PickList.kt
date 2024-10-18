@@ -1,5 +1,6 @@
 package com.nickdferrara.retailstore.fulfillment.domain
 
+import com.nickdferrara.retailstore.orders.domain.CustomerInformation
 import jakarta.persistence.*
 import java.math.BigDecimal
 
@@ -14,7 +15,11 @@ data class PickList(
 
     @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "pick_list_id")
-    val pickListItems: List<PickListItem>
+    val pickListItems: List<PickListItem>,
+
+    @OneToOne
+    @JoinColumn(name = "pick_list_customer_id")
+    val pickListCustomer: PickListCustomer
 )
 
 enum class PickListStatus {

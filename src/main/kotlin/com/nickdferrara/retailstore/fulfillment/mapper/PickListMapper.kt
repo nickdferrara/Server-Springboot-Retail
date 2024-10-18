@@ -5,7 +5,7 @@ import com.nickdferrara.retailstore.orders.domain.Order
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 
-@Mapper(componentModel = "spring", uses = [PickListItemMapper::class])
+@Mapper(componentModel = "spring", uses = [PickListItemMapper::class, PickListCustomerMapper::class])
 interface PickListMapper {
 
     @Mapping(target = "id", ignore = true)
