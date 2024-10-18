@@ -14,7 +14,7 @@ data class ShippingRoute(
 
     @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "shipping_route_id")
-    val shippingOrders: List<Order>,
+    val shippingOrders: List<ShippingOrder>,
 
     @Enumerated(EnumType.STRING)
     val status: ShippingStatus
