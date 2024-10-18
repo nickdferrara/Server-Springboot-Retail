@@ -15,6 +15,7 @@ import java.util.*
 class OrderService(
     private val orderRepository: OrderRepository,
     private val orderItemService: OrderItemService,
+    private val customerInformationService: CustomerInformationService,
     private val eventPublisher: ApplicationEventPublisher
 ) {
 
@@ -24,6 +25,7 @@ class OrderService(
 
     fun createOrder(order: Order): Order {
         order.orderItems.forEach { orderItemService.createOrderItem(it) }
+            .also { customerInformationService.createCustomerInformation(order.customerInformation) }
         val updatedOrder = order.copy(status = OrderStatus.PENDING)
         return orderRepository.save(updatedOrder)
     }
