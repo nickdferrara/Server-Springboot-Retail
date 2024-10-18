@@ -1,10 +1,7 @@
 package com.nickdferrara.retailstore.orders.mapper
 
 import com.nickdferrara.retailstore.orders.domain.Order
-import com.nickdferrara.retailstore.orders.domain.OrderItem
-import com.nickdferrara.retailstore.orders.domain.CustomerInformation
 import com.nickdferrara.retailstore.orders.dto.OrderRequest
-import com.nickdferrara.retailstore.orders.dto.OrderItemRequest
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 

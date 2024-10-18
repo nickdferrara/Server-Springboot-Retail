@@ -32,12 +32,16 @@ class OrderService(
 
     fun updateOrder(id: Long, order: Order): Order {
         if (orderRepository.existsById(id)) {
-            order.orderItems.forEach { orderItemService.updateOrderItem(it.id, it) }
-            val updatedOrder = orderRepository.save(order.copy(id = id))
-            if (updatedOrder.status == OrderStatus.RELEASED) {
-                eventPublisher.publishEvent(OrderReleasedEvent(updatedOrder.id, updatedOrder))
+            order.orderItems.forEach { orderItemService.createOrderItem(it) }
+            customerInformationService.createCustomerInformation(order.customerInformation)
+
+            val updatedOrder = order.copy(id = id, status = order.status)
+            val savedOrder = orderRepository.save(updatedOrder)
+
+            if (savedOrder.status == OrderStatus.RELEASED) {
+                eventPublisher.publishEvent(OrderReleasedEvent(savedOrder.id, savedOrder))
             }
-            return updatedOrder
+            return savedOrder
         } else {
             throw NoSuchElementException("Order with id $id not found")
         }

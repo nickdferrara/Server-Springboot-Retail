@@ -16,7 +16,6 @@ class OrderReleasedListener(
     @EventListener
     fun handleOrderReleasedEvent(event: OrderReleasedEvent) {
         val pickList = pickListMapper.toPickList(event.orderDetails)
-            .copy(status = PickListStatus.PENDING)
         pickListService.createPickList(pickList)
     }
 }

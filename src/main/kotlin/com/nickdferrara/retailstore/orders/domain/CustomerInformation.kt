@@ -3,7 +3,7 @@ package com.nickdferrara.retailstore.orders.domain
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "customer_informations")
+@Table(name = "customer_information")
 data class CustomerInformation (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
