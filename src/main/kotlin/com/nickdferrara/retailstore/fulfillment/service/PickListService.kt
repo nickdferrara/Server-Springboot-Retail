@@ -17,7 +17,8 @@ import org.springframework.context.ApplicationEventPublisher
 @Service
 class PickListService(
     private val pickListRepository: PickListRepository,
-    private val pickListItemRepository: PickListItemRepository,
+    private val pickListItemService: PickListItemService,
+    private val pickListCustomerService: PickListCustomerService,
     private val eventPublisher: ApplicationEventPublisher
 ) {
 
@@ -25,7 +26,12 @@ class PickListService(
 
     fun findPickListById(id: Long): PickList? = pickListRepository.findById(id).orElse(null)
 
-    fun createPickList(pickList: PickList): PickList = pickListRepository.save(pickList)
+    fun createPickList(pickList: PickList): PickList {
+        pickList.pickListItems.forEach { pickListItemService.createPickListItem(it) }
+            .also { pickListCustomerService.createPickListCustomer(pickList.pickListCustomer) }
+        val updatedPickList = pickList.copy(status = PickListStatus.PENDING)
+        return pickListRepository.save(updatedPickList)
+    }
 
     fun updatePickList(id: Long, pickList: PickList): PickList {
         if (pickListRepository.existsById(id)) {
