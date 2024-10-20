@@ -2,6 +2,7 @@ package com.nickdferrara.retailstore.orders.web
 
 import com.nickdferrara.retailstore.orders.domain.Order
 import com.nickdferrara.retailstore.orders.dto.OrderRequest
+import com.nickdferrara.retailstore.orders.extensions.toNewOrder
 import com.nickdferrara.retailstore.orders.extensions.toOrder
 import com.nickdferrara.retailstore.orders.service.OrderService
 import jakarta.validation.Valid
@@ -33,7 +34,7 @@ class OrderController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createOrder(@Valid @RequestBody request: OrderRequest): Order {
-        return orderService.createOrder(request.toOrder())
+        return orderService.createOrder(request.toNewOrder())
     }
 
     @PutMapping("/{id}")
@@ -43,7 +44,7 @@ class OrderController(
     ): ResponseEntity<Order> {
         return try {
             val order = request.toOrder()
-            ResponseEntity.ok(orderService.updateOrder(id, order))
+            ResponseEntity.ok(orderService.updateOrder(order))
         } catch (e: NoSuchElementException) {
             ResponseEntity.notFound().build()
         }

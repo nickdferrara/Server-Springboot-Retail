@@ -27,12 +27,14 @@ class OrderService(
         return orderRepository.save(updatedOrder)
     }
 
-    fun updateOrder(id: Long, order: Order): Order {
-        if (orderRepository.existsById(id)) {
+    fun updateOrder(order: Order): Order {
+
+        val existingOrder = orderRepository.findByOrderNumber(order.orderNumber)
+        if (existingOrder != null) {
             order.orderItems.forEach { orderItemService.createOrderItem(it) }
             customerInformationService.createCustomerInformation(order.customerInformation)
 
-            val updatedOrder = order.copy(id = id, status = order.status)
+            val updatedOrder = order.copy(id = existingOrder.id, status = order.status)
             val savedOrder = orderRepository.save(updatedOrder)
 
             if (savedOrder.status == OrderStatus.RELEASED) {
@@ -40,7 +42,7 @@ class OrderService(
             }
             return savedOrder
         } else {
-            throw NoSuchElementException("Order with id $id not found")
+            throw NoSuchElementException("Order number ${order.orderNumber} not found")
         }
     }
 
