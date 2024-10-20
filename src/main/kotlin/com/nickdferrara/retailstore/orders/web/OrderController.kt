@@ -37,9 +37,8 @@ class OrderController(
         return orderService.createOrder(request.toNewOrder())
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     fun updateOrder(
-        @PathVariable id: Long,
         @Valid @RequestBody request: OrderRequest
     ): ResponseEntity<Order> {
         return try {
