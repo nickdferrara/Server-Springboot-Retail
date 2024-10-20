@@ -26,7 +26,7 @@ class OrderService(
     fun createOrder(order: Order): Order {
         order.orderItems.forEach { orderItemService.createOrderItem(it) }
             .also { customerInformationService.createCustomerInformation(order.customerInformation) }
-        val updatedOrder = order.copy(status = OrderStatus.PENDING)
+        val updatedOrder = order.copy(status = OrderStatus.PENDING, orderNumber = UUID.randomUUID().toString())
         return orderRepository.save(updatedOrder)
     }
 
