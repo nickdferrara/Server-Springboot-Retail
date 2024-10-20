@@ -2,7 +2,7 @@ package com.nickdferrara.retailstore.orders.web
 
 import com.nickdferrara.retailstore.orders.domain.Order
 import com.nickdferrara.retailstore.orders.dto.OrderRequest
-import com.nickdferrara.retailstore.orders.mapper.OrderMapper
+import com.nickdferrara.retailstore.orders.extensions.toOrder
 import com.nickdferrara.retailstore.orders.service.OrderService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/orders")
 @Validated
 class OrderController(
-    private val orderService: OrderService,
-    private val orderMapper: OrderMapper
+    private val orderService: OrderService
 ) {
 
     @GetMapping
@@ -34,17 +33,16 @@ class OrderController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createOrder(@Valid @RequestBody request: OrderRequest): Order {
-        val order = orderMapper.toOrder(request)
-        return orderService.createOrder(order)
+        return orderService.createOrder(request.toOrder())
     }
 
     @PutMapping("/{id}")
     fun updateOrder(
         @PathVariable id: Long,
-        @Valid @RequestBody orderRequest: OrderRequest
+        @Valid @RequestBody request: OrderRequest
     ): ResponseEntity<Order> {
         return try {
-            val order = orderMapper.toOrder(orderRequest)
+            val order = request.toOrder()
             ResponseEntity.ok(orderService.updateOrder(id, order))
         } catch (e: NoSuchElementException) {
             ResponseEntity.notFound().build()

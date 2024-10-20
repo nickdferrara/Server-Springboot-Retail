@@ -1,12 +1,9 @@
 package com.nickdferrara.retailstore.orders.service
 
 import com.nickdferrara.retailstore.orders.domain.Order
-import com.nickdferrara.retailstore.orders.domain.OrderItem
 import com.nickdferrara.retailstore.orders.domain.OrderStatus
-import com.nickdferrara.retailstore.orders.dto.OrderRequest
-import com.nickdferrara.retailstore.orders.mapper.OrderMapper
-import com.nickdferrara.retailstore.orders.repository.OrderRepository
 import com.nickdferrara.retailstore.orders.events.OrderReleasedEvent
+import com.nickdferrara.retailstore.orders.repository.OrderRepository
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import java.util.*
