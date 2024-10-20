@@ -9,7 +9,7 @@ import java.math.BigDecimal
 data class PickList(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
-    val orderId: Long,
+    val orderNumber: String,
     @Enumerated(EnumType.STRING)
     val status: PickListStatus,
 

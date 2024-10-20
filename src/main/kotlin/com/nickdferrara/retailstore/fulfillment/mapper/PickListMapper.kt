@@ -9,6 +9,8 @@ import org.mapstruct.Mapping
 interface PickListMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "status", expression = "java(com.nickdferrara.retailstore.fulfillment.domain.PickListStatus.PENDING)")
+    @Mapping(source = "orderItems", target = "pickListItems")
+    @Mapping(source = "customerInformation", target = "pickListCustomer")
     fun toPickList(order: Order): PickList
 }
