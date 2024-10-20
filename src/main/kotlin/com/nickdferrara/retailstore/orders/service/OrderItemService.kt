@@ -14,11 +14,17 @@ class OrderItemService(private val orderItemRepository: OrderItemRepository) {
 
     fun createOrderItem(orderItem: OrderItem): OrderItem = orderItemRepository.save(orderItem)
 
-    fun updateOrderItem(id: Long, orderItem: OrderItem): OrderItem {
-        return if (orderItemRepository.existsById(id)) {
-            orderItemRepository.save(orderItem.copy(id = id))
+    fun updateOrderItem(orderItem: OrderItem): OrderItem {
+        return if (orderItemRepository.existsById(orderItem.id)) {
+            orderItemRepository.save(orderItem.copy(
+                id = orderItem.id,
+                brand = orderItem.brand,
+                name = orderItem.name,
+                quantity = orderItem.quantity,
+                price = orderItem.price
+            ))
         } else {
-            throw NoSuchElementException("OrderItem with id $id not found")
+            throw NoSuchElementException("OrderItem with id ${orderItem.id} not found")
         }
     }
 

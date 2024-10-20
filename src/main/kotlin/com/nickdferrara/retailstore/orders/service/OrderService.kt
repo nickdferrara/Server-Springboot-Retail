@@ -30,20 +30,22 @@ class OrderService(
     fun updateOrder(order: Order): Order {
 
         val existingOrder = orderRepository.findByOrderNumber(order.orderNumber)
-        if (existingOrder != null) {
-            order.orderItems.forEach { orderItemService.createOrderItem(it) }
-            customerInformationService.createCustomerInformation(order.customerInformation)
+            ?: throw NoSuchElementException("Order number ${order.orderNumber} not found")
 
-            val updatedOrder = order.copy(id = existingOrder.id, status = order.status)
-            val savedOrder = orderRepository.save(updatedOrder)
+        val updatedOrder = order.copy(
+            id = existingOrder.id,
+            status = order.status,
+            orderItems = order.orderItems,
+            customerInformation = order.customerInformation
+        )
 
-            if (savedOrder.status == OrderStatus.RELEASED) {
-                eventPublisher.publishEvent(OrderReleasedEvent(savedOrder.id, savedOrder))
-            }
-            return savedOrder
-        } else {
-            throw NoSuchElementException("Order number ${order.orderNumber} not found")
+        val savedOrder = orderRepository.save(updatedOrder)
+
+        if (savedOrder.status == OrderStatus.RELEASED) {
+            eventPublisher.publishEvent(OrderReleasedEvent(savedOrder.id, savedOrder))
         }
+
+        return savedOrder
     }
 
     fun deleteOrder(id: Long) {

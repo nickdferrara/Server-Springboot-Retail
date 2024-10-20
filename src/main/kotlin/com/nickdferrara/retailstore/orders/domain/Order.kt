@@ -19,7 +19,7 @@ data class Order(
     @JoinColumn(name = "order_id")
     val orderItems: List<OrderItem>,
 
-    @OneToOne
+    @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "customer_information_id")
     val customerInformation: CustomerInformation
 )
