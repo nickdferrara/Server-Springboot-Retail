@@ -17,7 +17,7 @@ data class PickList(
     @JoinColumn(name = "pick_list_id")
     val pickListItems: List<PickListItem>,
 
-    @OneToOne
+    @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "pick_list_customer_id")
     val pickListCustomer: PickListCustomer
 )

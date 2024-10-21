@@ -1,6 +1,7 @@
 package com.nickdferrara.retailstore.fulfillment.mapper
 
 import com.nickdferrara.retailstore.fulfillment.domain.PickList
+import com.nickdferrara.retailstore.fulfillment.dto.PickListRequest
 import com.nickdferrara.retailstore.orders.domain.Order
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
@@ -13,4 +14,7 @@ interface PickListMapper {
     @Mapping(source = "orderItems", target = "pickListItems")
     @Mapping(source = "customerInformation", target = "pickListCustomer")
     fun toPickList(order: Order): PickList
+
+    @Mapping(target = "id", ignore = true)
+    fun fromPickListRequestToPicklist(pickListRequest: PickListRequest): PickList
 }

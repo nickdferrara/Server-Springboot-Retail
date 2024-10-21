@@ -33,16 +33,24 @@ class PickListService(
         return pickListRepository.save(updatedPickList)
     }
 
-    fun updatePickList(id: Long, pickList: PickList): PickList {
-        if (pickListRepository.existsById(id)) {
-            val updatedPickList = pickListRepository.save(pickList.copy(id = id))
-            if (updatedPickList.status == PickListStatus.COMPLETED) {
-                eventPublisher.publishEvent(PickListCompleteEvent(updatedPickList.id, updatedPickList))
-            }
-            return updatedPickList
-        } else {
-            throw NoSuchElementException("PickList with id $id not found")
+    fun updatePickList(pickList: PickList): PickList {
+        val existingPickList = pickListRepository.findByOrderNumber(pickList.orderNumber)
+            ?: throw NoSuchElementException("Order number ${pickList.orderNumber} not found");
+
+        val updatedPickList = pickList.copy(
+            id = existingPickList.id,
+            status = pickList.status,
+            pickListItems = pickList.pickListItems,
+            pickListCustomer = pickList.pickListCustomer
+        )
+
+        val savedPickList = pickListRepository.save(updatedPickList)
+
+        if (savedPickList.status == PickListStatus.COMPLETED) {
+            eventPublisher.publishEvent(PickListCompleteEvent(updatedPickList.id, updatedPickList))
         }
+
+        return savedPickList
     }
 
     fun deletePickList(id: Long) {

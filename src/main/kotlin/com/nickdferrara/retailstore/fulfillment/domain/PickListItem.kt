@@ -11,5 +11,6 @@ data class PickListItem(
     val name: String,
     val brand: String,
     val quantity: Int,
+    val pickedQuantity: Int,
     val price: BigDecimal
 )
