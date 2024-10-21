@@ -17,12 +17,15 @@ data class ShippingRoute(
     val shippingOrders: List<ShippingOrder>,
 
     @Enumerated(EnumType.STRING)
-    val status: ShippingStatus
+    val status: ShippingStatus,
+
+    @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
+    @JoinColumn(name = "shipping_customer_id")
+    val shippingCustomer: ShippingCustomer
 )
 
 enum class ShippingStatus {
     STAGING,
     LOADING,
-    COMPLETE,
-    DELIVERED
+    COMPLETE
 }

@@ -12,9 +12,5 @@ class ShippingOrder(
     val brand: String,
     val quantityRequested: Int,
     val quantityPicked: Int,
-    val price: BigDecimal,
-
-    @OneToOne
-    @JoinColumn(name = "shipping_customer_id")
-    val shippingCustomer: ShippingCustomer
+    val price: BigDecimal
 )
